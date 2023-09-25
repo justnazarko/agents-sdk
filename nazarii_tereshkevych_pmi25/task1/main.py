@@ -3,11 +3,11 @@ def validate_input(prompt):
         try:
             value = int(input(prompt))
             if value < 1:
-                print("Будь ласка, введіть ціле число більше або рівне 1.")
+                print("Будь ласка, введіть ціле число більше 1.")
             else:
                 return value
         except ValueError:
-            print("Будь ласка, введіть ціле число більше або рівне 1.")
+            print("Будь ласка, введіть ціле число більше 1.")
 
 def count_ways_to_top(K, N):
     ways = [0] * (N + 1)
@@ -20,8 +20,8 @@ def count_ways_to_top(K, N):
     return ways[N]
 
 
-        K = validate_input("Введіть максимальну кількість сходинок, які може подолати заєць (K): ")
-        N = validate_input("Введіть кількість сходинок (N): ")
+K = validate_input("Введіть максимальну кількість сходинок, які може подолати заєць (K): ")
+N = validate_input("Введіть кількість сходинок (N): ")
 
 result = count_ways_to_top(K, N)
 print(f"Кількість різних способів дістатися до вершини сходів: {result}")
