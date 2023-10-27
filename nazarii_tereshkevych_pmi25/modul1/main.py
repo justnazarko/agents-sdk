@@ -15,7 +15,7 @@ def main():
 
     # Тут ми додамо нові бронювання
     try:
-        BlablacarBooking.add_booking("John", 3, Time(10, 00), Time(11, 00), "Lviv", "Kyiv")
+        BlablacarBooking.add_booking("Nazar", 3, Time(10, 00), Time(11, 00), "Lviv", "Kyiv")
         BlablacarBooking.add_booking("Alice", 2, Time(10, 00), Time(11, 00), "NewYork", "LasVegas")
         BlablacarBooking.add_booking("Bob", 2, Time(10, 30), Time(11, 30), "LosAngeles", "SanFrancisco")
         BlablacarBooking.add_booking("Charlie", 4, Time(14, 15), Time(17, 30), "Chicago", "Kyiv")
@@ -38,6 +38,11 @@ def main():
     print("\nMost Booked Hours:")
     for hour in most_booked_hours:
         print(f"Hour: {hour}")
+
+    most_trips_driver = BlablacarBooking.driver_with_most_trips()
+    print("\nDriver with Most Trips:")
+    if most_trips_driver:
+        print(f"Driver Name: {most_trips_driver}")
 
 if __name__ == "__main__":
     main()

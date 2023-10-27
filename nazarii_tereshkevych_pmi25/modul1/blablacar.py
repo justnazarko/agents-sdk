@@ -67,7 +67,22 @@ class BlablacarBooking:
 
         return most_booked_hours
 
+    @classmethod
+    def driver_with_most_trips(cls):
+        driver_trip_count = {}
+        most_trips_driver = None
 
+        for booking in cls.bookings:
+            driver_name = booking.driver_name
+            if driver_name in driver_trip_count:
+                driver_trip_count[driver_name] += 1
+            else:
+                driver_trip_count[driver_name] = 1
+
+        if driver_trip_count:
+            most_trips_driver = max(driver_trip_count, key=driver_trip_count.get)
+
+        return most_trips_driver
     @classmethod
     def add_booking(cls, driver_name, no_of_people, start_time, end_time, start_place, end_place):
 

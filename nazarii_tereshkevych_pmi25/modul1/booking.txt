@@ -1,4 +1,4 @@
-Vika,2,09:30,11:45,Lviv,Kyiv
+Nazar,2,09:30,11:45,Lviv,Kyiv
 Max,1,08:00,09:15,Spas,Sambir
 Nastya,4,14:15,17:30,Kharkiv,Sumy
 Nazar,3,10:30,12:00,Dnipro,Rivne
