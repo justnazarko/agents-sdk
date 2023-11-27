@@ -100,8 +100,9 @@ class Collection:
         try:
             with open(filename, 'w') as file:
                 for request in self.vaccination_requests:
-                    file.write(f"{request.ID},{request.patient_name},{request.patient_phone},{request.vaccine},"
-                               f"{request.date},{request.start_time},{request.end_time}\n")
+                    attributes = vars(request)
+                    values = ",".join(map(str, attributes.values()))
+                    file.write(f"{values}\n")
         except FileNotFoundError:
             print("File not found.")
 
