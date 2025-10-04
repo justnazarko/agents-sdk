@@ -1,0 +1,17 @@
+# vscode files
+**/.vscode
+
+# python venv files
+**/.venv
+
+# macos files
+**/.DS_Store
+
+# bazel build files
+**/bazel-*
+
+# doxygen build files
+**/docs/build
+
+# code-workspace files
+**/*.code-workspace

@@ -1,0 +1,181 @@
+/**
+ * @file ollama_llm.h
+ * @brief Ollama LLM Definition
+ * @version 0.1
+ * @date 2025-07-20
+ *
+ * @copyright Copyright (c) 2025 Edge AI, LLC. All rights reserved.
+ *
+ */
+#pragma once
+
+#include <agents-cpp/llm_interface.h>
+
+namespace agents {
+namespace llms {
+
+/**
+ * @brief Implementation of LLMInterface for Ollama models
+ */
+class OllamaLLM : public LLMInterface {
+public:
+    /**
+     * @brief Constructor
+     * @param model The model to use
+     */
+    OllamaLLM(const String& model = "llama3");
+    /**
+     * @brief Destructor
+     */
+    ~OllamaLLM() override = default;
+
+    /**
+     * @brief Get available models from Ollama
+     * @return The available models
+     */
+    std::vector<String> getAvailableModels() override;
+
+    /**
+     * @brief Set the model to use
+     * @param model The model to use
+     */
+    void setModel(const String& model) override;
+
+    /**
+     * @brief Get current model
+     * @return The current model
+     */
+    String getModel() const override;
+
+    /**
+     * @brief Set API key (not used for Ollama, but implemented for interface compliance)
+     * @param api_key The API key
+     */
+    void setApiKey(const String& api_key) override;
+
+    /**
+     * @brief Set API base URL for Ollama server
+     * @param api_base The API base URL
+     */
+    void setApiBase(const String& api_base) override;
+
+    /**
+     * @brief Set options for API calls
+     * @param options The options
+     */
+    void setOptions(const LLMOptions& options) override;
+
+    /**
+     * @brief Get current options
+     * @return The current options
+     */
+    LLMOptions getOptions() const override;
+
+    /**
+     * @brief Generate completion from a prompt
+     * @param prompt The prompt
+     * @return The completion
+     */
+    LLMResponse complete(const String& prompt) override;
+
+    /**
+     * @brief Generate completion from a list of messages
+     * @param messages The messages
+     * @return The completion
+     */
+    LLMResponse chat(const std::vector<Message>& messages) override;
+
+    /**
+     * @brief Generate completion with available tools
+     * @param messages The messages
+     * @param tools The tools
+     * @return The completion
+     */
+    LLMResponse chatWithTools(
+        const std::vector<Message>& messages,
+        const std::vector<std::shared_ptr<Tool>>& tools
+    ) override;
+
+    /**
+     * @brief Stream results with callback
+     * @param messages The messages
+     * @param callback The callback
+     */
+    void streamChat(
+        const std::vector<Message>& messages,
+        std::function<void(const String&, bool)> callback
+    ) override;
+
+    /**
+     * @brief Stream results asynchronously
+     * @param messages The messages
+     * @param tools The tools
+     * @return AsyncGenerator of response chunks
+     */
+    AsyncGenerator<String> streamChatAsync(
+        const std::vector<Message>& messages,
+        const std::vector<std::shared_ptr<Tool>>& tools
+    ) override;
+
+private:
+    String api_base_ = "http://localhost:11434/api";
+    String model_;
+    LLMOptions options_;
+
+    /**
+     * @brief Convert Message list to Ollama API format
+     * @param messages The messages
+     * @param stream Whether to stream the response
+     * @param tools The tools (optional)
+     * @return The Ollama request body
+     */
+    JsonObject formatMessages(
+        const std::vector<Message>& messages,
+        bool stream,
+        const std::vector<std::shared_ptr<Tool>>& tools);
+
+    /**
+     * @brief Convert Ollama API response to LLMResponse
+     * @param response The response
+     * @return The LLMResponse
+     */
+    LLMResponse parseOllamaResponse(const JsonObject& response);
+
+    /**
+     * @brief Make API call to Ollama
+     * @param request_body The request body
+     * @param stream Whether to stream the response
+     * @return The response
+     */
+    JsonObject makeApiCall(const JsonObject& request_body, bool stream = false);
+
+    /**
+     * @brief Format message history for models without chat format support
+     * @param messages The messages
+     * @return The formatted messages
+     */
+    String formatMessagesAsPrompt(const std::vector<Message>& messages);
+
+    /**
+     * @brief Check if the model supports chat format
+     * @return True if the model supports chat format
+     */
+    bool modelSupportsChatFormat() const;
+
+    /**
+     * @brief Check if the model supports tool calls
+     * @return True if the model supports tool calls
+     */
+    bool modelSupportsToolCalls() const;
+
+    /**
+     * @brief Apply media envelope to Ollama message JSON (content/images)
+     * @param env The media envelope
+     * @param inout_msg The output message JSON
+     * @return True if the envelope was mapped, false otherwise
+     */
+    bool applyEnvelopeToOllamaMessage(const JsonObject& env, JsonObject& inout_msg);
+};
+
+} // namespace llms
+} // namespace agents

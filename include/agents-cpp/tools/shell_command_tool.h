@@ -1,0 +1,73 @@
+/**
+ * @file shell_command_tool.h
+ * @brief Shell Command Tool Header
+ * @version 0.1
+ * @date 2025-08-24
+ *
+ * @copyright Copyright (c) 2025 Edge AI, LLC. All rights reserved.
+ *
+ */
+#pragma once
+
+#include <agents-cpp/tool.h>
+
+namespace agents {
+namespace tools {
+
+/**
+ * @brief Shell command tool that provides secure command execution capabilities
+ */
+class ShellCommandTool : public Tool {
+public:
+    /**
+     * @brief Construct a new Shell Command Tool object
+     */
+    ShellCommandTool();
+
+    /**
+     * @brief Execute the Shell Command Tool
+     * @param params The parameters for the Shell Command Tool
+     * @return ToolResult The result of the Shell Command Tool
+     */
+    ToolResult execute(const JsonObject& params) const override;
+
+/*! @cond PRIVATE */
+protected:
+    /**
+     * @brief Setup the parameters for the Shell Command Tool
+     */
+    void setupParameters();
+
+    /**
+     * @brief Validate the command
+     * @param command The command to validate
+     * @return true if the command is valid, false otherwise
+     */
+    bool validateCommand(const String& command) const;
+
+    /**
+     * @brief Check if the command is dangerous
+     * @param command The command to check
+     * @return true if the command is dangerous, false otherwise
+     */
+    bool isDangerousCommand(const String& command) const;
+
+    /**
+     * @brief Execute the command
+     * @param command The command to execute
+     * @return int The exit code of the command
+     */
+    int executeCommand(const String& command) const;
+
+    /**
+     * @brief Format the command result
+     * @param command The command that was executed
+     * @param exitCode The exit code of the command
+     * @return ToolResult The formatted result of the command execution
+     */
+    ToolResult formatCommandResult(const String& command, int exitCode) const;
+/*! @endcond */
+};
+
+} // namespace tools
+} // namespace agents

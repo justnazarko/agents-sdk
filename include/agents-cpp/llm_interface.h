@@ -1,0 +1,238 @@
+/**
+ * @file llm_interface.h
+ * @brief LLM Interface Definition
+ * @version 0.1
+ * @date 2025-07-20
+ *
+ * @copyright Copyright (c) 2025 Edge AI, LLC. All rights reserved.
+ *
+ */
+#pragma once
+
+#include <agents-cpp/types.h>
+#include <agents-cpp/tool.h>
+#include <agents-cpp/coroutine_utils.h>
+#include <functional>
+#include <memory>
+#include <optional>
+#include <vector>
+
+namespace agents {
+
+/**
+ * @brief Options for LLM API calls
+ */
+struct LLMOptions {
+    /**
+     * @brief The temperature of the LLM
+     */
+    double temperature = 0.7;
+    /**
+     * @brief The maximum number of tokens
+     */
+    int max_tokens = 1024;
+    /**
+     * @brief The top p of the LLM
+     */
+    double top_p = 1.0;
+    /**
+     * @brief The presence penalty of the LLM
+     */
+    double presence_penalty = 0.0;
+    /**
+     * @brief The frequency penalty of the LLM
+     */
+    double frequency_penalty = 0.0;
+    /**
+     * @brief The timeout in milliseconds
+     */
+    int timeout_ms = 30000; // 30 seconds
+    /**
+     * @brief The stop sequences of the LLM
+     */
+    std::vector<String> stop_sequences;
+    /**
+     * @brief Response schema for structured output (JSON schema)
+     */
+    std::optional<JsonObject> response_schema;
+    /**
+     * @brief Response MIME type for structured output
+     * @note Use "application/json" for JSON output, "text/x.enum" for enum output
+     */
+    std::optional<String> response_mime_type;
+};
+
+/**
+ * @brief Interface for language model providers (OpenAI, Anthropic, Google, Ollama)
+ */
+class LLMInterface {
+public:
+    /**
+     * @brief Destructor
+     */
+    virtual ~LLMInterface() = default;
+
+    /**
+     * @brief Get available models from this provider
+     * @return The available models
+     */
+    virtual std::vector<String> getAvailableModels() = 0;
+
+    /**
+     * @brief Set the model to use
+     * @param model The model to use
+     */
+    virtual void setModel(const String& model) = 0;
+
+    /**
+     * @brief Get current model
+     * @return The current model
+     */
+    virtual String getModel() const = 0;
+
+    /**
+     * @brief Set API key
+     * @param api_key The API key to use
+     */
+    virtual void setApiKey(const String& api_key) = 0;
+
+    /**
+     * @brief Set API base URL (for self-hosted or proxied endpoints)
+     * @param api_base The API base URL to use
+     */
+    virtual void setApiBase(const String& api_base) = 0;
+
+    /**
+     * @brief Set options for API calls
+     * @param options The options to use
+     */
+    virtual void setOptions(const LLMOptions& options) = 0;
+
+    /**
+     * @brief Get current options
+     * @return The current options
+     */
+    virtual LLMOptions getOptions() const = 0;
+
+    /**
+     * @brief Generate completion from a prompt
+     * @param prompt The prompt to generate completion from
+     * @return The LLM response
+     */
+    virtual LLMResponse complete(const String& prompt);
+
+    /**
+     * @brief Generate completion from a list of messages
+     * @param messages The messages to generate completion from
+     * @return The LLM response
+     */
+    virtual LLMResponse complete(const std::vector<Message>& messages);
+
+    /**
+     * @brief Generate completion with available tools
+     * @param messages The messages to generate completion from
+     * @param tools_schema The tools schema to use
+     * @return The LLM response
+     */
+    virtual LLMResponse completeWithTools(
+        const std::vector<Message>& messages,
+        const std::vector<JsonObject>& tools_schema
+    );
+
+    /**
+     * @brief Generate completion from a list of messages
+     * @param messages The messages to generate completion from
+     * @return The LLM response
+     */
+    virtual LLMResponse chat(const std::vector<Message>& messages) = 0;
+
+    /**
+     * @brief Generate completion with available tools
+     * @param messages The messages to generate completion from
+     * @param tools The tools to use
+     * @return The LLM response
+     */
+    virtual LLMResponse chatWithTools(
+        const std::vector<Message>& messages,
+        const std::vector<std::shared_ptr<Tool>>& tools
+    ) = 0;
+
+    /**
+     * @brief Stream results with callback
+     * @param messages The messages to generate completion from
+     * @param callback The callback to use
+     */
+    virtual void streamChat(
+        const std::vector<Message>& messages,
+        std::function<void(const String&, bool)> callback
+    ) = 0;
+
+    /**
+     * @brief Async complete from a prompt
+     * @param prompt The prompt to generate completion from
+     * @return The LLM response
+     */
+    virtual Task<LLMResponse> completeAsync(const String& prompt);
+
+    /**
+     * @brief Async complete from a list of messages
+     * @param messages The messages to generate completion from
+     * @return The LLM response
+     */
+    virtual Task<LLMResponse> completeAsync(const std::vector<Message>& messages);
+
+    /**
+     * @brief Async chat from a list of messages
+     * @param messages The messages to generate completion from
+     * @return The LLM response
+     */
+    virtual Task<LLMResponse> chatAsync(const std::vector<Message>& messages);
+
+    /**
+     * @brief Async chat with tools
+     * @param messages The messages to generate completion from
+     * @param tools The tools to use
+     * @return The LLM response
+     */
+    virtual Task<LLMResponse> chatWithToolsAsync(
+        const std::vector<Message>& messages,
+        const std::vector<std::shared_ptr<Tool>>& tools
+    );
+
+    /**
+     * @brief Stream chat with AsyncGenerator
+     * @param messages The messages to generate completion from
+     * @param tools The tools to use
+     * @return The AsyncGenerator of response chunks
+     */
+    virtual AsyncGenerator<String> streamChatAsync(
+        const std::vector<Message>& messages,
+        const std::vector<std::shared_ptr<Tool>>& tools
+    );
+
+    /**
+     * @brief Provider-optional: Upload a local media file to the provider's file storage and
+     *        return a canonical media envelope (e.g., with fileUri). Default: not supported.
+     * @param local_path Local filesystem path
+     * @param mime The MIME type of the media file
+     * @param binary Optional binary content of the media file
+     * @return Optional envelope; std::nullopt if unsupported
+     */
+    virtual std::optional<JsonObject> uploadMediaFile(const String& local_path, const String& mime, const String& binary = "");
+};
+
+/**
+ * @brief Factory function to create a specific LLM provider
+ *
+ * @param provider One of: "anthropic", "openai", "google", "ollama"
+ * @param api_key API key for the provider
+ * @param model Model to use (provider-specific)
+ * @return The LLMInterface
+ */
+std::shared_ptr<LLMInterface> createLLM(
+    const String& provider,
+    const String& api_key,
+    const String& model = ""
+);
+
+} // namespace agents
