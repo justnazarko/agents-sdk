@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 
         // Send a prompt
         std::string prompt = "Give me a simple chocolate chip cookie recipe with 5 ingredients.";
-        auto response = llm->complete(prompt);
+        auto response = llm->chat(prompt);
 
         std::cout << "Prompt: " << prompt << std::endl;
         std::cout << "Structured Response: " << response.content << std::endl;
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
 
         // Send a prompt for sentiment analysis
         std::string prompt = "Classify the sentiment of these statements: 'I love this product', 'This is terrible', 'It's okay'";
-        auto response = llm->complete(prompt);
+        auto response = llm->chat(prompt);
 
         std::cout << "Prompt: " << prompt << std::endl;
         std::cout << "Enum Response: " << response.content << std::endl;
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]) {
 
         // Send a prompt for ticket creation
         std::string prompt = "Create a support ticket for a user who can't log into their account and is getting an 'invalid credentials' error.";
-        auto response = llm->complete(prompt);
+        auto response = llm->chat(prompt);
 
         std::cout << "Prompt: " << prompt << std::endl;
         std::cout << "Complex Schema Response: " << response.content << std::endl;

@@ -1,23 +1,21 @@
 /**
- * @file ilive_client.h
+ * @file live_client_interface.h
  * @brief Abstract interface for live real-time AI clients
- *
- * This interface provides a common abstraction for different real-time
+ * @details This interface provides a common abstraction for different real-time
  * AI providers and transport protocols (WebSocket, WebRTC, etc.).
  *
- * @author Agents-CPP Team
  * @version 1.0
- * @date 2024
+ * @date 2025-07-20
  */
 
 #pragma once
 
 #include <agents-cpp/types.h>
+#include <algorithm>
 #include <functional>
+#include <map>
 #include <memory>
 #include <vector>
-#include <map>
-#include <algorithm>
 
 namespace agents {
 

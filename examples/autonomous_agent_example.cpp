@@ -155,7 +155,7 @@ int main() {
             String prompt = "Summarize the following text in no more than " +
                             std::to_string(max_length) + " words:\n\n" + text;
 
-            LLMResponse llm_response = summary_context->getLLM()->complete(prompt);
+            LLMResponse llm_response = summary_context->getLLM()->chat(prompt);
             String summary = llm_response.content;
 
             return ToolResult{

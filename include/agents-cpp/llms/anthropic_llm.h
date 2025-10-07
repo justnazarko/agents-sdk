@@ -81,7 +81,7 @@ public:
      * @param prompt The prompt
      * @return The completion
      */
-    LLMResponse complete(const String& prompt) override;
+    LLMResponse chat(const String& prompt) override;
 
     /**
      * @brief Generate completion from a list of messages

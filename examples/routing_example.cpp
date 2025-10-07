@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
             );
 
             // Get response from LLM
-            LLMResponse llm_response = opinion_context->getLLM()->complete(input);
+            LLMResponse llm_response = opinion_context->getLLM()->chat(input);
             String response = llm_response.content;
 
             JsonObject result;
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
             );
 
             // Get response from LLM
-            LLMResponse llm_response = technical_context->getLLM()->complete(input);
+            LLMResponse llm_response = technical_context->getLLM()->chat(input);
             String response = llm_response.content;
 
             JsonObject result;
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
         Logger::info("Handling with default route: {}", input);
 
         // Get response from LLM
-        LLMResponse llm_response = context->getLLM()->complete(input);
+        LLMResponse llm_response = context->getLLM()->chat(input);
         String response = llm_response.content;
 
         JsonObject result;

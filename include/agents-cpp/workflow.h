@@ -9,8 +9,8 @@
  */
 #pragma once
 
-#include <agents-cpp/types.h>
 #include <agents-cpp/agent_context.h>
+#include <agents-cpp/types.h>
 #include <functional>
 #include <memory>
 

@@ -24,14 +24,10 @@
 #include <utility>
 #include <vector>
 
-// Provide standard C++ coroutine-based APIs similar to Folly,
-// implementations that preserve the same public API and usage.
-// If you ever need to re-enable Folly, you can restore the original detection
-// block and branch on HAS_FOLLY_CORO accordingly.
 namespace agents {
 
 /**
- * @brief Standard C++20 coroutine-based Task implementation (no external deps)
+ * @brief Standard C++20 coroutine-based Task implementation
  * @tparam T The result type of the task
  */
 template <typename T>

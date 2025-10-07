@@ -116,28 +116,10 @@ public:
 
     /**
      * @brief Generate completion from a prompt
-     * @param prompt The prompt to generate completion from
-     * @return The LLM response
+     * @param prompt The prompt
+     * @return The completion
      */
-    virtual LLMResponse complete(const String& prompt);
-
-    /**
-     * @brief Generate completion from a list of messages
-     * @param messages The messages to generate completion from
-     * @return The LLM response
-     */
-    virtual LLMResponse complete(const std::vector<Message>& messages);
-
-    /**
-     * @brief Generate completion with available tools
-     * @param messages The messages to generate completion from
-     * @param tools_schema The tools schema to use
-     * @return The LLM response
-     */
-    virtual LLMResponse completeWithTools(
-        const std::vector<Message>& messages,
-        const std::vector<JsonObject>& tools_schema
-    );
+    virtual LLMResponse chat(const String& prompt) = 0;
 
     /**
      * @brief Generate completion from a list of messages
@@ -166,20 +148,6 @@ public:
         const std::vector<Message>& messages,
         std::function<void(const String&, bool)> callback
     ) = 0;
-
-    /**
-     * @brief Async complete from a prompt
-     * @param prompt The prompt to generate completion from
-     * @return The LLM response
-     */
-    virtual Task<LLMResponse> completeAsync(const String& prompt);
-
-    /**
-     * @brief Async complete from a list of messages
-     * @param messages The messages to generate completion from
-     * @return The LLM response
-     */
-    virtual Task<LLMResponse> completeAsync(const std::vector<Message>& messages);
 
     /**
      * @brief Async chat from a list of messages
