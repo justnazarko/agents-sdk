@@ -1,28 +1,71 @@
 [TOC]
-# Agents-SDK: A High Performance C++ Framework for AI Agents
+# 🧠 Agents-SDK - A High Performance C++ Framework for AI Agents
 
-A high-performance, low-memory C++ implementation of an AI agents framework designed to enable developers to build local agentic systems.
+**Agents-SDK** is a **high-performance, low-memory C++ framework** for building **on-device, agentic AI systems** — think **LangChain for the edge**. This SDK is purpose-built for developers who want to create **local-first AI agents** that can reason, plan, and act without relying on the cloud.
 
-## Features
+## 🚀 Features
 
-- **Modular Design**: Composable components for building various agent architectures
-- **Multiple LLM Providers**: Support for OpenAI, Anthropic, Google, and Ollama
-- **High Performance**: Optimized for efficiency and low memory usage
-- **Workflow Patterns**: Implementation of recommended workflow patterns
-  - Prompt Chaining
-  - Routing
-  - Parallelization
-  - Orchestrator-Workers
-  - Evaluator-Optimizer
-- **Autonomous Agents**: Support for fully autonomous agents with various planning strategies:
-  - ReAct
-  - Chain of thought
-  - Plan and Execute
-  - Zero Shot
-  - Reflexion
-- **Extensible Tools**: Flexible tool system with prebuilt examples
+- ⚙️ **Modular Architecture** — Compose agents from interchangeable components.  
+- 🧩 **Multi-LLM Support** — Connect to multiple providers seamlessly:  
+  - **OpenAI** (GPT-4o, GPT-4, GPT-3.5 Turbo)  
+  - **Anthropic** (Claude 3 family models (Opus, Sonnet, Haiku)  
+  - **Google** (Gemini family models (Pro, Flash) 
+  - **Ollama/llama-cpp** (local models like Llama, Mistral, etc.)  
+- ⚡ **Optimized for Speed and Memory** — Built in C++ with focus on performance.  
+- 🔁 **Built-In Workflow Patterns**  
+  - Prompt Chaining  
+  - Routing  
+  - Parallelization  
+  - Orchestrator-Workers  
+  - Evaluator-Optimizer  
+- 🤖 **Autonomous Agents** — Supports modern reasoning strategies:  
+  - ReAct (Reason + Act)  
+  - CoT (Chain-of-Thought)  
+  - Plan and Execute  
+  - Zero-Shot  
+  - Reflexion  
+- 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Calculator, Python Executor, etc).  
 
-## Configuration
+## ⚙️ Requirements
+
+- C++20 compatible compiler (GCC 14+, Clang 17+, MSVC 2022+)
+- Bazel 8.3.1+
+
+- Dependencies (already provided for convenience)
+   - python3 (3.11+)
+   - libcpr (C++ Requests)
+   - libcurl
+   - nlohmann/json
+   - spdlog
+
+## 🧭 Quick Start
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/RunEdgeAI/agents-sdk.git
+   ```
+
+2. Navigate to SDK:
+   ```bash
+   cd agents-sdk
+   ```
+
+3. Obtain API keys:
+   - For OpenAI models: Get an API key from [OpenAI's platform](https://platform.openai.com/api-keys)
+   - For Anthropic models: Get an API key from [Anthropic's console](https://console.anthropic.com/account/keys)
+   - For Google models: Get an API key from [Google AI Studio](https://ai.google.dev/)
+
+### Building
+
+Build everything in this space:
+
+```bash
+bazel build ...
+```
+
+### Configuration
 
 You can configure API keys and other settings in three ways:
 
@@ -51,26 +94,7 @@ The framework will check for API keys in the following order:
 2. Environment variables
 3. Command-line arguments
 
-## Requirements
-
-- C++20 compatible compiler
-- Bazel 8.3.1+
-
-- Dependencies (already provided for convenience)
-   - libcpr (C++ Requests)
-   - libcurl
-   - nlohmann/json
-   - spdlog
-
-## Building
-
-Build everything in this space:
-
-```bash
-bazel build ...
-```
-
-## Usage
+### Usage
 
 Here's a simple example of creating and running an autonomous agent:
 
@@ -107,30 +131,6 @@ int main() {
 }
 ```
 
-## Getting Started
-
-### Prerequisites
-
-Before you begin, ensure you have the following installed:
-- A C++20 compatible compiler (GCC 8+, Clang 7+, or MSVC 2019+)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/RunEdgeAI/agents-sdk.git
-   ```
-
-2. Navigate to SDK:
-   ```bash
-   cd agents-sdk
-   ```
-
-3. Obtain API keys:
-   - For OpenAI models: Get an API key from [OpenAI's platform](https://platform.openai.com/api-keys)
-   - For Anthropic models: Get an API key from [Anthropic's console](https://console.anthropic.com/account/keys)
-   - For Google models: Get an API key from [Google AI Studio](https://ai.google.dev/)
-
 ### Running Your First Example
 
 The simplest way to start is with the `simple_agent` example, which creates a basic autonomous agent that can use tools to answer questions:
@@ -142,7 +142,7 @@ The simplest way to start is with the `simple_agent` example, which creates a ba
 
 1. From the release directory, run the example:
    ```bash
-   bazel run examples:simple_agent your_api_key_here
+   bazel run examples:simple_agent -- your_api_key_here
    ```
 
    Alternatively, you can set your API key as an environment variable:
@@ -207,25 +207,27 @@ You can modify examples/simple_agent.cpp to explore different configurations:
   agent.setPlanningStrategy(AutonomousAgent::PlanningStrategy::COT);
   ```
 
-## Examples
+## 🧪 Included Examples
 
 The repository includes several examples demonstrating different workflow patterns:
 
-- `simple_agent`: Basic autonomous agent example
-- `prompt_chain_example`: Demonstrates prompt chaining workflow
-- `routing_example`: Shows how to implement routing
-- `parallel_example`: Parallel execution of tasks
-- `orchestrator_example`: Orchestrator-workers pattern
-- `evaluator_optimizer_example`: Demonstrates the evaluator-optimizer workflow
-- `autonomous_agent_example`: Full-featured autonomous agent
+| Example                       | Description                       |
+| ----------------------------- | --------------------------------- |
+| `simple_agent`                | Basic autonomous agent            |
+| `prompt_chain_example`        | Prompt chaining workflow          |
+| `routing_example`             | Multi-agent routing               |
+| `parallel_example`            | Parallel task execution           |
+| `orchestrator_example`        | Orchestrator–worker pattern       |
+| `evaluator_optimizer_example` | Evaluator–optimizer feedback loop |
+| `autonomous_agent_example`    | Full-featured autonomous agent    |
 
-Run examples from the build directory:
+Run examples available:
 
 ```bash
-./bin/examples/simple_agent your_api_key_here
+bazel run examples:<simple_agent> -- your_api_key_here
 ```
 
-## Project Structure
+## 📂 Project Structure
 
 - `lib/`: Public library for SDK
 - `include/agents-cpp/`: Public headers
@@ -242,14 +244,7 @@ Run examples from the build directory:
   - `llms/`: LLM provider implementations
 - `bin/examples/`: Example applications
 
-## Supported LLM Providers
-
-- **Anthropic Claude**: Claude 3 family models (Opus, Sonnet, Haiku)
-- **OpenAI**: GPT-4o, GPT-4, GPT-3.5 Turbo
-- **Google**: Gemini family models (Pro, Flash)
-- **Ollama**: Local models like Llama, Mistral, etc.
-
-## Extending
+## 🛠️ Extending the SDK
 
 ### Adding Custom Tools
 
@@ -291,10 +286,10 @@ public:
 };
 ```
 
-## License
+## 📚 Acknowledgements
+
+This implementation is inspired by Anthropic's article ["Building effective agents"](https://www.anthropic.com/research/building-effective-agents) and and re-engineered in C++ for real-time, usage on edge devices.
+
+## ⚖️ License
 
 This project is licensed under a proprietary License - see the [LICENSE](./LICENSE.md) file for details.
-
-## Acknowledgements
-
-This implementation began based on Anthropic's article ["Building effective agents"](https://www.anthropic.com/research/building-effective-agents) and frequently draws inspiration from their research and recommendations.
