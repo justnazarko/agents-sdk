@@ -1,5 +1,5 @@
 [TOC]
-# Agents-Cpp: A High Performance C++ Framework for AI Agents
+# Agents-SDK: A High Performance C++ Framework for AI Agents
 
 A high-performance, low-memory C++ implementation of an AI agents framework designed to enable developers to build local agentic systems.
 
