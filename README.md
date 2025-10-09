@@ -294,8 +294,8 @@ public:
 
 ## 🆘 Support
 
-Email: support@runedge.ai
-Discord: https://discord.gg/D5unWmt8
+- Email: support@runedge.ai
+- Discord: https://discord.gg/D5unWmt8
 
 ## 📚 Acknowledgements
 
