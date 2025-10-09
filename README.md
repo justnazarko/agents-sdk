@@ -1,7 +1,11 @@
 [TOC]
 # 🧠 Agents-SDK - A High Performance C++ Framework for AI Agents
 
-**Agents-SDK** is a **high-performance, low-memory C++ framework** for building **on-device, agentic AI systems** — think **LangChain for the edge**. This SDK is purpose-built for developers who want to create **local-first AI agents** that can reason, plan, and act without relying on the cloud.
+![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
+![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0)
+
+
+**Agents-SDK** is a **portable, high-performance C++ framework** for building **on-device, agentic AI systems** — think **LangChain for the edge**. This SDK is purpose-built for developers who want to create **local-first AI agents** that can reason, plan, and act without relying on the cloud.
 
 ## 🚀 Features
 
@@ -24,7 +28,7 @@
   - Plan and Execute  
   - Zero-Shot  
   - Reflexion  
-- 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Calculator, Python Executor, etc).  
+- 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Wikipedia, Python Executor, etc).  
 
 ## ⚙️ Requirements
 
@@ -56,6 +60,7 @@
    - For OpenAI models: Get an API key from [OpenAI's platform](https://platform.openai.com/api-keys)
    - For Anthropic models: Get an API key from [Anthropic's console](https://console.anthropic.com/account/keys)
    - For Google models: Get an API key from [Google AI Studio](https://ai.google.dev/)
+   - For Websearch tool: Get an API key from [serpapi](https://serpapi.com)
 
 ### Building
 
@@ -82,11 +87,12 @@ You can configure API keys and other settings in three ways:
    ```bash
    export OPENAI_API_KEY=your_api_key_here
    export ANTHROPIC_API_KEY=your_api_key_here
+   export SERPAPI_KEY=your_api_key_here
    ```
 
 3. Passing API keys as command-line arguments (not recommended for production):
    ```bash
-   ./bin/examples/simple_agent your_api_key_here
+   bazel run examples:simple_agent -- your_api_key_here
    ```
 
 The framework will check for API keys in the following order:
@@ -286,6 +292,11 @@ public:
 };
 ```
 
+## 🆘 Support
+
+Email: support@runedge.ai
+Discord: https://discord.gg/D5unWmt8
+
 ## 📚 Acknowledgements
 
 This implementation is inspired by Anthropic's article ["Building effective agents"](https://www.anthropic.com/research/building-effective-agents) and and re-engineered in C++ for real-time, usage on edge devices.
@@ -293,3 +304,10 @@ This implementation is inspired by Anthropic's article ["Building effective agen
 ## ⚖️ License
 
 This project is licensed under a proprietary License - see the [LICENSE](./LICENSE.md) file for details.
+
+---
+
+<p align="center">
+  <strong>The future of AI is on-device</strong><br>
+  Start with our samples and discover how we could empower the next generation of AI applications.
+</p>
