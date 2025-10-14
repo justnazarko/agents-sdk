@@ -24,10 +24,10 @@
   - Evaluator-Optimizer  
 - 🤖 **Autonomous Agents** — Supports modern reasoning strategies:  
   - ReAct (Reason + Act)  
-  - CoT (Chain-of-Thought)  
+  - CoT (Chain-of-Thought)  [In Development]
   - Plan and Execute  
-  - Zero-Shot  
-  - Reflexion  
+  - Zero-Shot [In Development] 
+  - Reflexion [In Development]
 - 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Wikipedia, Python Executor, etc).  
 
 ## ⚙️ Requirements
