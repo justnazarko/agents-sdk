@@ -8,6 +8,7 @@
  *
  */
 #include <agents-cpp/config_loader.h>
+#include <agents-cpp/logger.h>
 #include <agents-cpp/workflows/evaluator_workflow.h>
 
 #include <iostream>
@@ -15,6 +16,9 @@
 using namespace agents;
 
 int main(int argc, char* argv[]) {
+    // Initialize the logger
+    Logger::init(Logger::Level::INFO);
+
     // Get API key from .env, environment, or command line
     String api_key;
     auto& config = ConfigLoader::getInstance();
@@ -29,15 +33,15 @@ int main(int argc, char* argv[]) {
 
     // Still not found, show error and exit
     if (api_key.empty()) {
-        std::cout << ("API key not found. Please:") << std::endl;
-        std::cout << ("1. Create a .env file with GEMINI_API_KEY=your_key, or") << std::endl;
-        std::cout << ("2. Set the GEMINI_API_KEY environment variable, or") << std::endl;
-        std::cout << ("3. Provide an API key as a command line argument") << std::endl;
+        Logger::error("API key not found. Please:");
+        Logger::error("1. Create a .env file with GEMINI_API_KEY=your_key, or");
+        Logger::error("2. Set the GEMINI_API_KEY environment variable, or");
+        Logger::error("3. Provide an API key as a command line argument");
         return EXIT_FAILURE;
     }
 
     // Create LLM
-    auto llm = createLLM("google", api_key, "gemini-1.5-flash");
+    auto llm = createLLM("google", api_key, "gemini-2.5-flash");
 
     // Configure LLM options
     LLMOptions options;
@@ -46,7 +50,7 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Create evaluator-optimizer workflow
@@ -104,7 +108,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Enter queries (or 'exit' to quit):" << std::endl;
     String user_input;
     while (true) {
-        std::cout << "> ";
+        Logger::info("> ");
         std::getline(std::cin, user_input);
 
         if (user_input == "exit" || user_input == "quit" || user_input == "q") {
@@ -116,33 +120,32 @@ int main(int argc, char* argv[]) {
         }
 
         try {
-            std::cout << "Starting evaluator-optimizer workflow..." << std::endl;
+            Logger::info("Starting evaluator-optimizer workflow...");
 
             // Run the workflow
             JsonObject result = workflow.run(user_input);
 
             // Display the final result
-            std::cout << "\nFinal Response:" << std::endl;
-            std::cout << result["final_response"].get<String>() << std::endl;
+            Logger::info("\nFinal Response:");
+            Logger::info("{}", result["final_response"].get<String>());
 
             // Display evaluation information
-            std::cout << "\nEvaluation Information:" << std::endl;
-            std::cout << "Iterations: " << result["iterations"].get<int>() << std::endl;
-            std::cout << "Final Score: " << result["final_score"].get<double>() << std::endl;
+            Logger::info("\nEvaluation Information:");
+            Logger::info("Iterations: {}", result["iterations"].get<int>());
+            Logger::info("Final Score: {}", result["final_score"].get<double>());
 
             if (result.contains("evaluations")) {
-                std::cout << "\nEvaluation History:" << std::endl;
+                Logger::info("\nEvaluation History:");
                 for (const auto& eval : result["evaluations"]) {
-                    std::cout << "Iteration " << eval["iteration"].get<int>() << ": Score = "
-                              << eval["score"].get<double>() << std::endl;
-                    std::cout << "Feedback: " << eval["feedback"].get<String>() << std::endl;
-                    std::cout << "----------" << std::endl;
+                    Logger::info("Iteration {}: Score = {}", eval["iteration"].get<int>(), eval["score"].get<double>());
+                    Logger::info("Feedback: {}", eval["feedback"].get<String>());
+                    Logger::info("----------");
                 }
             }
 
-            std::cout << "--------------------------------------" << std::endl;
+            Logger::info("--------------------------------------");
         } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+            Logger::error("Error: {}", e.what());
         }
     }
 

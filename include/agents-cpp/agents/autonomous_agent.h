@@ -79,7 +79,7 @@ public:
      * @brief Constructor
      * @param context The agent context
      */
-    AutonomousAgent(std::shared_ptr<AgentContext> context);
+    AutonomousAgent(std::shared_ptr<Context> context);
 
     /**
      * @brief Destructor

@@ -9,26 +9,26 @@
 
 ## 🚀 Features
 
-- ⚙️ **Modular Architecture** — Compose agents from interchangeable components.  
-- 🧩 **Multi-LLM Support** — Connect to multiple providers seamlessly:  
-  - **OpenAI** (GPT-4o, GPT-4, GPT-3.5 Turbo)  
-  - **Anthropic** (Claude 3 family models (Opus, Sonnet, Haiku)  
-  - **Google** (Gemini family models (Pro, Flash) 
-  - **Ollama/llama-cpp** (local models like Llama, Mistral, etc.)  
-- ⚡ **Optimized for Speed and Memory** — Built in C++ with focus on performance.  
-- 🔁 **Built-In Workflow Patterns**  
-  - Prompt Chaining  
-  - Routing  
-  - Parallelization  
-  - Orchestrator-Workers  
-  - Evaluator-Optimizer  
-- 🤖 **Autonomous Agents** — Supports modern reasoning strategies:  
-  - ReAct (Reason + Act)  
+- ⚙️ **Modular Architecture** — Compose agents from interchangeable components.
+- 🧩 **Multi-LLM Support** — Connect to multiple providers seamlessly:
+  - **OpenAI** (GPT-4o, GPT-4, GPT-3.5 Turbo)
+  - **Anthropic** (Claude 3 family models (Opus, Sonnet, Haiku)
+  - **Google** (Gemini family models (Pro, Flash)
+  - **Ollama/llama-cpp** (local models like Llama, Mistral, etc.)
+- ⚡ **Optimized for Speed and Memory** — Built in C++ with focus on performance.
+- 🔁 **Built-In Workflow Patterns**
+  - Prompt Chaining
+  - Routing
+  - Parallelization
+  - Orchestrator-Workers
+  - Evaluator-Optimizer
+- 🤖 **Autonomous Agents** — Supports modern reasoning strategies:
+  - ReAct (Reason + Act)
   - CoT (Chain-of-Thought)  [In Development]
-  - Plan and Execute  
-  - Zero-Shot [In Development] 
+  - Plan and Execute
+  - Zero-Shot [In Development]
   - Reflexion [In Development]
-- 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Wikipedia, Python Executor, etc).  
+- 🧠 **Extensible Tooling System** — Plug in your own tools or use built-in ones (Web Search, Wikipedia, Python Executor, etc).
 
 ## ⚙️ Requirements
 
@@ -37,8 +37,6 @@
 
 - Dependencies (already provided for convenience)
    - python3 (3.11+)
-   - libcpr (C++ Requests)
-   - libcurl
    - nlohmann/json
    - spdlog
 
@@ -105,7 +103,7 @@ The framework will check for API keys in the following order:
 Here's a simple example of creating and running an autonomous agent:
 
 ```cpp
-#include <agents-cpp/agent_context.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/agents/autonomous_agent.h>
 #include <agents-cpp/llm_interface.h>
 #include <agents-cpp/tools/tool_registry.h>
@@ -117,7 +115,7 @@ int main() {
     auto llm = createLLM("anthropic", "<your_api_key_here>", "claude-3-5-sonnet-20240620");
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Register tools
@@ -238,7 +236,7 @@ bazel run examples:<simple_agent> -- your_api_key_here
 - `lib/`: Public library for SDK
 - `include/agents-cpp/`: Public headers
   - `types.h`: Common type definitions
-  - `agent_context.h`: Context for agent execution
+  - `context.h`: Context for agent execution
   - `llm_interface.h`: Interface for LLM providers
   - `tool.h`: Tool interface
   - `memory.h`: Agent memory interface
@@ -283,7 +281,7 @@ You can create custom workflows by extending the `Workflow` base class or combin
 ```cpp
 class CustomWorkflow : public Workflow {
 public:
-    CustomWorkflow(std::shared_ptr<AgentContext> context)
+    CustomWorkflow(std::shared_ptr<Context> context)
         : Workflow(context) {}
 
     JsonObject run(const String& input) override {

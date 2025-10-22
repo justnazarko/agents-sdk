@@ -7,6 +7,7 @@
  * @copyright Copyright (c) 2025 Edge AI, LLC. All rights reserved.
  */
 #include <agents-cpp/config_loader.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/logger.h>
 #include <agents-cpp/tools/tool_registry.h>
 
@@ -41,7 +42,7 @@ Task<int> runStreamingChat(int argc, char* argv[]) {
     }
 
     // Create the context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
 
     // Configure the LLM
     auto llm = createLLM("google", api_key, "gemini-2.0-flash");

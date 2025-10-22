@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2025 Edge AI, LLC. All rights reserved.
  */
 
-#include <agents-cpp/agent_context.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/config_loader.h>
 #include <agents-cpp/llm_interface.h>
 #include <agents-cpp/logger.h>
@@ -32,7 +32,7 @@ Task<int> runRoboticsObjectDetectionDemo(String media_path) {
     }
 
     // Create the context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
 
     // Create the LLM
     auto llm = createLLM(provider, api_key, model);

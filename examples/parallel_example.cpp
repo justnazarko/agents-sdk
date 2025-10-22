@@ -37,6 +37,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Ask the user which parallelization mode to use
+    // Sectioning: Breaking a task into independent subtasks run in parallel.
+    // Voting: Running the same task multiple times to get diverse outputs.
     std::cout << "Select parallelization mode (1 for SECTIONING, 2 for VOTING): ";
     int mode_choice;
     std::cin >> mode_choice;
@@ -58,7 +60,7 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Create parallelization workflow
@@ -135,7 +137,8 @@ int main(int argc, char* argv[]) {
         });
     } else {
         // VOTING mode - multiple identical tasks with different parameters
-        for (int i = 0; i < 5; i++) {
+        constexpr uint numVotingAgents = 5u;
+        for (uint i = 0; i < numVotingAgents; i++) {
             parallel.addTask(
                 "agent_" + std::to_string(i+1),
                 "You are assistant " + std::to_string(i+1) + ". "

@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Register some tools
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
             Logger::info("Handling opinion query: {}", input);
 
             // Create specific context for opinion handling
-            auto opinion_context = std::make_shared<AgentContext>(*context);
+            auto opinion_context = std::make_shared<Context>(*context);
             opinion_context->setSystemPrompt(
                 "You are a balanced and thoughtful assistant that provides nuanced perspectives on complex topics. "
                 "Consider multiple viewpoints and provide balanced opinions."
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
             Logger::info("Handling technical query: {}", input);
 
             // Create specific context for technical handling
-            auto technical_context = std::make_shared<AgentContext>(*context);
+            auto technical_context = std::make_shared<Context>(*context);
             technical_context->setSystemPrompt(
                 "You are a technical expert assistant that provides accurate and detailed information on technical topics. "
                 "Focus on clarity, precision, and correctness."

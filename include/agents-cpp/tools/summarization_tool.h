@@ -9,8 +9,8 @@
  */
 #pragma once
 
+#include <agents-cpp/llm_interface.h>
 #include <agents-cpp/tool.h>
-#include <agents-cpp/agent_context.h>
 
 namespace agents {
 namespace tools {
@@ -22,9 +22,9 @@ class SummarizationTool : public Tool {
 public:
     /**
      * @brief Construct a new Summarization Tool object
-     * @param context The agent context containing the LLM
+     * @param llm The LLM interface to use
      */
-    explicit SummarizationTool(std::shared_ptr<AgentContext> context);
+    explicit SummarizationTool(std::shared_ptr<LLMInterface> llm);
 
     /**
      * @brief Execute the summarization tool
@@ -55,12 +55,6 @@ protected:
     bool validateMaxLength(int max_length) const;
 
     /**
-     * @brief Create a summary context for the LLM
-     * @return A new agent context configured for summarization
-     */
-    std::shared_ptr<AgentContext> createSummaryContext() const;
-
-    /**
      * @brief Generate the summarization prompt
      * @param text The text to summarize
      * @param max_length The maximum length of the summary
@@ -78,9 +72,9 @@ protected:
     ToolResult formatSummarizationResult(const String& original_text, const String& summary, int max_length) const;
 
     /**
-     * @brief The agent context containing the LLM
+     * @brief The LLM interface to use
      */
-    std::shared_ptr<AgentContext> context_;
+    std::shared_ptr<LLMInterface> llm_;
 /*! @endcond */
 };
 

@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Create the prompt chain workflow
@@ -105,6 +105,10 @@ int main(int argc, char* argv[]) {
     Logger::info("Enter a topic for document generation:");
     String user_input;
     std::getline(std::cin, user_input);
+
+    if (user_input == "exit" || user_input == "quit" || user_input == "q") {
+        return EXIT_SUCCESS;
+    }
 
     try {
         // Run the chain

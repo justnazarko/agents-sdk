@@ -33,7 +33,7 @@ public:
      * @param evaluator_prompt_template The evaluator prompt template
      */
     EvaluatorWorkflow(
-        std::shared_ptr<AgentContext> context,
+        std::shared_ptr<Context> context,
         const String& optimizer_prompt_template = "",
         const String& evaluator_prompt_template = ""
     );

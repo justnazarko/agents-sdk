@@ -81,7 +81,7 @@ public:
      * @param router_prompt_template The router prompt template
      */
     RoutingWorkflow(
-        std::shared_ptr<AgentContext> context,
+        std::shared_ptr<Context> context,
         const String& router_prompt_template = ""
     );
 

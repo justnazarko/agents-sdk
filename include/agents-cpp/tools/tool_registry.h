@@ -10,9 +10,10 @@
 #pragma once
 
 #include <agents-cpp/tool.h>
-#include <agents-cpp/tools/wiki_tool.h>
-#include <agents-cpp/tools/summarization_tool.h>
 #include <agents-cpp/tools/media_loader_tool.h>
+#include <agents-cpp/tools/summarization_tool.h>
+#include <agents-cpp/tools/wiki_tool.h>
+
 #include <map>
 #include <memory>
 #include <vector>
@@ -140,10 +141,10 @@ std::shared_ptr<Tool> createFileWriteTool();
 /**
  * @brief Creates a tool for text summarization
  *
- * @param context The agent context containing the LLM
+ * @param llm The LLM interface to use
  * @return Pointer to tool
  */
-std::shared_ptr<Tool> createSummarizationTool(std::shared_ptr<AgentContext> context);
+std::shared_ptr<Tool> createSummarizationTool(std::shared_ptr<LLMInterface> llm);
 
 /**
  * @brief Creates a tool for loading media from URLs or local files

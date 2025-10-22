@@ -466,13 +466,22 @@ public:
      */
     Task<std::optional<T>> next() {
         if (!_coro || _coro.done()) {
+            if (_coro) {
+                _coro.destroy();
+                _coro = nullptr;
+            }
             co_return std::nullopt;
         }
         _coro.resume();
         if (_coro.promise().exception) {
-            std::rethrow_exception(_coro.promise().exception);
+            auto ex_ptr = _coro.promise().exception;
+            _coro.destroy();
+            _coro = nullptr;
+            std::rethrow_exception(ex_ptr);
         }
         if (_coro.done()) {
+            _coro.destroy();
+            _coro = nullptr;
             co_return std::nullopt;
         }
         co_return std::move(_coro.promise().current);

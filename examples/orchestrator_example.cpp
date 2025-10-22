@@ -8,6 +8,7 @@
  *
  */
 #include <agents-cpp/config_loader.h>
+#include <agents-cpp/logger.h>
 #include <agents-cpp/tools/tool_registry.h>
 #include <agents-cpp/workflows/orchestrator_workflow.h>
 
@@ -16,6 +17,9 @@
 using namespace agents;
 
 int main(int argc, char* argv[]) {
+    // Initialize the logger
+    Logger::init(Logger::Level::INFO);
+
     // Get API key from .env, environment, or command line
     String api_key;
     auto& config = ConfigLoader::getInstance();
@@ -30,15 +34,15 @@ int main(int argc, char* argv[]) {
 
     // Still not found, show error and exit
     if (api_key.empty()) {
-        std::cout << ("API key not found. Please:") << std::endl;
-        std::cout << ("1. Create a .env file with GEMINI_API_KEY=your_key, or") << std::endl;
-        std::cout << ("2. Set the GEMINI_API_KEY environment variable, or") << std::endl;
-        std::cout << ("3. Provide an API key as a command line argument") << std::endl;
+        Logger::error("API key not found. Please:");
+        Logger::error("1. Create a .env file with GEMINI_API_KEY=your_key, or");
+        Logger::error("2. Set the GEMINI_API_KEY environment variable, or");
+        Logger::error("3. Provide an API key as a command line argument");
         return EXIT_FAILURE;
     }
 
     // Create LLM
-    auto llm = createLLM("google", api_key, "gemini-1.5-flash");
+    auto llm = createLLM("google", api_key, "gemini-2.5-flash");
 
     // Configure LLM options
     LLMOptions options;
@@ -47,7 +51,7 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Register tools
@@ -133,7 +137,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Enter complex tasks (or 'exit' to quit):" << std::endl;
     String user_input;
     while (true) {
-        std::cout << "> ";
+        Logger::info("> ");
         std::getline(std::cin, user_input);
 
         if (user_input == "exit" || user_input == "quit" || user_input == "q") {
@@ -145,16 +149,16 @@ int main(int argc, char* argv[]) {
         }
 
         try {
-            std::cout << "Orchestrating workers..." << std::endl;
+            Logger::info("Orchestrating workers...");
 
             // Run the orchestrator-workers workflow
             JsonObject result = orchestrator.run(user_input);
 
             // Display the result
-            std::cout << "\nFinal Result:\n" << result["answer"].get<String>() << std::endl;
-            std::cout << "--------------------------------------" << std::endl;
+            Logger::info("Final Result:\n{}", result["answer"].get<String>());
+            Logger::info("--------------------------------------");
         } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+            Logger::error("Error: {}", e.what());
         }
     }
 

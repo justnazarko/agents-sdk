@@ -6,12 +6,12 @@
  *
  * The canonical envelope shape (all fields optional unless stated):
  * {
- *   "type": "text" | "image" | "audio" | "video",                    // required
- *   "text": "...",                                                   // when type==text
- *   "mime": "image/png" | "audio/wav" | "video/mp4",                 // required for non-text
- *   "uri":  "http(s)://..." | "file://..." | "data:...",             // exactly one of uri or data
- *   "data": "<base64-bytes>",                                        // exactly one of uri or data
- *   "meta": {                                                        // optional metadata
+ *   "type": "text" | "image" | "audio" | "video" | "document",            // required
+ *   "text": "...",                                                        // when type==text
+ *   "mime": "image/png" | "audio/wav" | "video/mp4" | "application/pdf",  // required for non-text
+ *   "uri":  "http(s)://..." | "file://..." | "data:...",                  // exactly one of uri or data
+ *   "data": "<base64-bytes>",                                             // exactly one of uri or data
+ *   "meta": {                                                             // optional metadata
  *     "width": 1024, "height": 768, "fps": 30.0, "duration_s": 3.2,
  *     "sample_rate_hz": 16000, "channels": 1
  *   }
@@ -152,6 +152,32 @@ inline JsonObject videoUri(const String& uri, const String& mime, JsonObject met
  */
 inline JsonObject videoData(const String& base64, const String& mime, JsonObject meta = {}) {
     JsonObject j{{"type","video"},{"mime",mime},{"data",base64}};
+    if (!meta.empty()) j["meta"] = std::move(meta);
+    return j;
+}
+
+/**
+ * @brief Create a document media envelope
+ * @param uri The document URI
+ * @param mime The document MIME type
+ * @param meta The document metadata
+ * @return The media envelope
+ */
+inline JsonObject documentUri(const String& uri, const String& mime, JsonObject meta = {}) {
+    JsonObject j{{"type","document"},{"mime",mime},{"uri",uri}};
+    if (!meta.empty()) j["meta"] = std::move(meta);
+    return j;
+}
+
+/**
+ * @brief Create a document media envelope with base64 data
+ * @param base64 The base64 data
+ * @param mime The document MIME type
+ * @param meta The document metadata
+ * @return The media envelope
+ */
+inline JsonObject documentData(const String& base64, const String& mime, JsonObject meta = {}) {
+    JsonObject j{{"type","document"},{"mime",mime},{"data",base64}};
     if (!meta.empty()) j["meta"] = std::move(meta);
     return j;
 }

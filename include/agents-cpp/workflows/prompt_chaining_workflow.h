@@ -74,7 +74,7 @@ public:
      * @brief Constructor with context
      * @param context The context to use
      */
-    PromptChainingWorkflow(std::shared_ptr<AgentContext> context);
+    PromptChainingWorkflow(std::shared_ptr<Context> context);
 
     /**
      * @brief Destructor

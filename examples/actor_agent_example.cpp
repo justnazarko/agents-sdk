@@ -14,9 +14,6 @@
 #include <agents-cpp/workflows/parallelization_workflow.h>
 #include <agents-cpp/workflows/prompt_chaining_workflow.h>
 
-#include <chrono>
-#include <iostream>
-
 using namespace agents;
 using namespace agents::workflows;
 
@@ -122,7 +119,7 @@ int main(int argc, char* argv[]) {
 
     try {
         // Create LLM interface
-        auto llm = createLLM("google", api_key, "gemini-1.5-flash");
+        auto llm = createLLM("google", api_key, "gemini-2.0-flash");
 
         // Set up options
         LLMOptions options;
@@ -150,13 +147,13 @@ int main(int argc, char* argv[]) {
         );
 
         // Create agent context
-        auto context = std::make_shared<AgentContext>();
+        auto context = std::make_shared<Context>();
         context->setLLM(llm);
         context->registerTool(calculator);
         context->registerTool(weather);
 
         // Example 1: Using the prompt chaining workflow
-        std::cout << "\n=== Example 1: Prompt Chaining Workflow ===\n\n";
+        Logger::info("\n=== Example 1: Prompt Chaining Workflow ===\n\n");
 
         auto chaining_workflow = std::make_shared<PromptChainingWorkflow>(context);
 
@@ -179,10 +176,10 @@ int main(int argc, char* argv[]) {
         // Initialize and execute the workflow
         auto result = chaining_workflow->run();
 
-        std::cout << "Prompt chaining result: " << result.dump(2) << "\n\n";
+        Logger::info("Prompt chaining result: {}", result.dump(2));
 
         // Example 2: Using the parallelization workflow
-        std::cout << "\n=== Example 2: Parallelization Workflow (Sectioning) ===\n\n";
+        Logger::info("\n=== Example 2: Parallelization Workflow (Sectioning) ===\n\n");
 
         auto parallel_workflow = std::make_shared<ParallelizationWorkflow>(
             context, ParallelizationWorkflow::Strategy::SECTIONING
@@ -208,10 +205,10 @@ int main(int argc, char* argv[]) {
         parallel_workflow->init();
         result = parallel_workflow->run();
 
-        std::cout << "Parallelization result: " << result.dump(2) << "\n\n";
+        Logger::info("Parallelization result: {}", result.dump(2));
 
         // Example 3: Using the actor agent
-        std::cout << "\n=== Example 3: Actor Agent with Tools ===\n\n";
+        Logger::info("\n=== Example 3: Actor Agent with Tools ===\n\n");
 
         auto agent = std::make_shared<ActorAgent>(context);
 
@@ -229,7 +226,7 @@ int main(int argc, char* argv[]) {
 
         // Register status callback
         agent->setStatusCallback([](const String& status) {
-            std::cout << "Agent status: " << status << "\n";
+            Logger::info("Agent status: {}", status);
         });
 
         // Initialize and run the agent
@@ -243,9 +240,9 @@ int main(int argc, char* argv[]) {
         };
 
         for (const auto& task : tasks) {
-            std::cout << "\nTask: " << task << "\n";
+            Logger::info("Task: {}", task);
             result = blockingWait(agent->run(task));
-            std::cout << "Result: " << result.dump(2) << "\n";
+            Logger::info("Result: {}", result.dump(2));
 
             // Small delay between tasks
             std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -253,7 +250,7 @@ int main(int argc, char* argv[]) {
 
         return EXIT_SUCCESS;
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        Logger::error("Error: {}", e.what());
         return EXIT_FAILURE;
     }
 }

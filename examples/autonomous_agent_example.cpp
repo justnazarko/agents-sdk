@@ -116,7 +116,7 @@ int main() {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Set system prompt for the context
@@ -146,7 +146,7 @@ int main() {
             int max_length = params.contains("max_length") ? params["max_length"].get<int>() : 100;
 
             // Create a specific context for summarization
-            auto summary_context = std::make_shared<AgentContext>(*context);
+            auto summary_context = std::make_shared<Context>(*context);
             summary_context->setSystemPrompt(
                 "You are a summarization assistant. Your task is to create concise, accurate summaries "
                 "that capture the main points of the provided text."

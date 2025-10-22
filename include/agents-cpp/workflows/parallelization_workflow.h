@@ -90,7 +90,7 @@ public:
      * @param strategy The strategy of the workflow
      */
     ParallelizationWorkflow(
-        std::shared_ptr<AgentContext> context,
+        std::shared_ptr<Context> context,
         Strategy strategy = Strategy::SECTIONING
     );
 

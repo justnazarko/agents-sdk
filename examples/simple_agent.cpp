@@ -43,10 +43,10 @@ Task<int> runAgentApp(int argc, char* argv[]) {
     }
 
     // Create the context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
 
     // Configure the LLM
-    auto llm = createLLM("google", api_key, "gemini-2.0-flash");
+    auto llm = createLLM("google", api_key, "gemini-2.5-flash");
 
     // Configure LLM options
     LLMOptions options;
@@ -58,6 +58,7 @@ Task<int> runAgentApp(int argc, char* argv[]) {
     // Register some tools
     context->registerTool(tools::createWebSearchTool());
     context->registerTool(tools::createWikipediaTool());
+    context->registerTool(tools::createSummarizationTool(llm));
 
     // Create the agent
     ActorAgent agent(context);
@@ -66,7 +67,7 @@ Task<int> runAgentApp(int argc, char* argv[]) {
     agent.setAgentPrompt(
         "You are a friendly assistant that helps users find information and answer questions. "
         "Use the tools available to you to gather information and provide comprehensive answers. "
-        "When searching for information, try multiple queries if necessary."
+        "Be clear and concise in your responses."
     );
 
     // Set up callbacks
@@ -97,7 +98,7 @@ Task<int> runAgentApp(int argc, char* argv[]) {
             JsonObject result = co_await agent.run(user_input);
 
             // Display the final result
-            Logger::info("\nFinal Result:\n{}", result["answer"].get<String>());
+            Logger::info("Final Result:\n{}", result["answer"].get<String>());
         } catch (const std::exception& e) {
             Logger::error("Error: {}", e.what());
         }

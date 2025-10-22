@@ -8,6 +8,7 @@
  */
 
 #include <agents-cpp/config_loader.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/logger.h>
 #include <agents-cpp/tools/tool_registry.h>
 
@@ -32,7 +33,7 @@ Task<int> runmultimodalExample(String media_path) {
     }
 
     // Create the context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
 
     // Create the LLM
     auto llm = createLLM(provider, api_key, model);
@@ -47,11 +48,13 @@ Task<int> runmultimodalExample(String media_path) {
 
     // Register tools
     context->registerTool(tools::createMediaLoaderTool(llm));
+    context->registerTool(tools::createSummarizationTool(llm));
 
     // Set the system prompt
     context->setSystemPrompt(
         "You are a friendly assistant that helps users find information and answer questions. "
         "Use the tools available to you to load files, gather information, and provide comprehensive answers. "
+        "Always keep your answers concise and in less than 50 words. "
     );
 
     // Lambda for printing result stream to console
@@ -69,23 +72,30 @@ Task<int> runmultimodalExample(String media_path) {
     // data:<mime_type>;base64,<data>
     // For example: "data:image/png;base64,AAAA..."
     try {
-        // Example 1: Multimodal Chat With Audio (unified API)
+        // Example 0: Multimodal Chat With Document
+        auto doc_resp = context->streamChatMultiModal(
+            "Describe what is in this document.",
+            { "file://" + media_path + "/docs/resume.pdf" }
+        );
+        co_await printStream(doc_resp);
+
+        // Example 1: Multimodal Chat With Audio
         auto audio_resp = context->streamChatMultiModal(
-            "What is in this audio ?",
+            "Describe what is in this audio.",
             { "file://" + media_path + "/audio/sample.mp3" }
         );
         co_await printStream(audio_resp);
 
-        // Example 2: Multimodal Chat With Video (unified API)
+        // Example 2: Multimodal Chat With Video
         auto video_resp = context->streamChatMultiModal(
-            "What is this video about ?",
+            "Describe what is this video about.",
             { "file://" + media_path + "/video/sample_video.mp4" }
         );
         co_await printStream(video_resp);
 
-        // Example 3: Multimodal Chat With Multiple Images (unified API)
+        // Example 3: Multimodal Chat With Multiple Images
         auto image_resp = context->streamChatMultiModal(
-            "What is happening in these images?",
+            "Describe what is happening in these images.",
             {
                 "https://i.ytimg.com/vi/Eb4ICVPOUlI/hqdefault.jpg",
                 "file://" + media_path + "/scenes/robotics_scene.png",
@@ -93,6 +103,26 @@ Task<int> runmultimodalExample(String media_path) {
             }
         );
         co_await printStream(image_resp);
+
+        // Optionally ask quesions about the content
+        String user_input;
+        while (true) {
+            Logger::info("Enter questions about the content (type 'exit', 'quit' or 'q' to stop):");
+            Logger::info("> ");
+            std::getline(std::cin, user_input);
+
+            if (user_input == "exit" || user_input == "quit" || user_input == "q") {
+                break;
+            }
+
+            if (user_input.empty()) {
+                continue;
+            }
+
+            // Chat with the model
+            auto chat_response = context->streamChat(user_input);
+            co_await printStream(chat_response);
+        }
     } catch (const std::exception& e) {
         Logger::error("Error: {}", e.what());
     }
@@ -108,5 +138,3 @@ int main(int argc, char**argv) {
     }
     return blockingWait(runmultimodalExample(String(argv[1])));
 }
-
-

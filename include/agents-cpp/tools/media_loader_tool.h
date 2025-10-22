@@ -61,6 +61,7 @@ private:
         if (mime.rfind("image/", 0) == 0) return "image";
         if (mime.rfind("audio/", 0) == 0) return "audio";
         if (mime.rfind("video/", 0) == 0) return "video";
+        if (mime.rfind("application/", 0) == 0) return "document";
         return ""; // default fallback
     }
 

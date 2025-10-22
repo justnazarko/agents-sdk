@@ -42,7 +42,7 @@ bool humanApproval(const String& message, const JsonObject& context, String& mod
 }
 
 // Example coroutine that performs a multi-step task using tools
-Task<JsonObject> performResearchTask(std::shared_ptr<AgentContext> context, const String& topic) {
+Task<JsonObject> performResearchTask(std::shared_ptr<Context> context, const String& topic) {
     Logger::info("Starting research on topic: {}", topic);
 
     // Perform a search to get initial information
@@ -80,7 +80,7 @@ Task<JsonObject> performResearchTask(std::shared_ptr<AgentContext> context, cons
 }
 
 // Example coroutine that generates content in parallel
-Task<JsonObject> generateContentInParallel(std::shared_ptr<AgentContext> context, const String& topic) {
+Task<JsonObject> generateContentInParallel(std::shared_ptr<Context> context, const String& topic) {
     Logger::info("Generating content for topic: {}", topic);
 
     // Create a prompt for the introduction
@@ -123,7 +123,7 @@ Task<JsonObject> generateContentInParallel(std::shared_ptr<AgentContext> context
 }
 
 // Example showing streaming text with coroutines
-Task<void> streamText(std::shared_ptr<AgentContext> context, const String& prompt) {
+Task<void> streamText(std::shared_ptr<Context> context, const String& prompt) {
     Logger::info("Streaming response for prompt: {}", prompt);
 
     // Get a streaming generator
@@ -136,8 +136,8 @@ Task<void> streamText(std::shared_ptr<AgentContext> context, const String& promp
         String chunk = *item;
         std::cout << chunk << std::flush;
     }
-
     std::cout << std::endl;
+
     Logger::info("Streaming complete!");
     co_return;
 }
@@ -177,36 +177,36 @@ int main(int argc, char* argv[]) {
     llm->setOptions(options);
 
     // Create agent context
-    auto context = std::make_shared<AgentContext>();
+    auto context = std::make_shared<Context>();
     context->setLLM(llm);
 
     // Register tools
     context->registerTool(tools::createWebSearchTool());
     context->registerTool(tools::createWikipediaTool());
-    context->registerTool(tools::createSummarizationTool(context));
+    context->registerTool(tools::createSummarizationTool(llm));
 
     // Menu-driven example to demonstrate various coroutines
     while (true) {
-        std::cout << "\n========== COROUTINE EXAMPLES ==========\n";
-        std::cout << "1. Run autonomous agent with coroutines\n";
-        std::cout << "2. Perform research with parallel tool use\n";
-        std::cout << "3. Generate content in parallel\n";
-        std::cout << "4. Stream text example\n";
-        std::cout << "5. Exit\n";
-        std::cout << "Enter your choice: ";
+        Logger::info("\n========== COROUTINE EXAMPLES ==========");
+        Logger::info("1. Run autonomous agent with coroutines");
+        Logger::info("2. Perform research with parallel tool use");
+        Logger::info("3. Generate content in parallel");
+        Logger::info("4. Stream text example");
+        Logger::info("5. Exit");
+        Logger::info("Enter your choice:");
 
         int choice;
         std::cin >> choice;
         std::cin.ignore(); // Clear the newline
 
-        if (choice == 5) {
+        if (choice >= 5 || choice < 1) {
             break;
         }
 
         // Get topic from user
         std::string topic;
         if (choice >= 1 && choice <= 4) {
-            std::cout << "Enter a topic: ";
+            Logger::info("Enter a topic: ");
             std::getline(std::cin, topic);
         }
 

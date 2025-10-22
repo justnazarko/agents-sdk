@@ -10,15 +10,11 @@
 #pragma once
 
 #include <agents-cpp/agent.h>
-#include <agents-cpp/agent_context.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/coroutine_utils.h>
-#include <map>
+#include <chrono>
 #include <memory>
 #include <mutex>
-#include <optional>
-#include <queue>
-#include <thread>
-#include <vector>
 
 namespace agents {
 
@@ -34,7 +30,7 @@ public:
      * @brief Constructor with agent context
      * @param context The agent context
      */
-    ActorAgent(std::shared_ptr<AgentContext> context);
+    ActorAgent(std::shared_ptr<Context> context);
 
     /**
      * @brief Destructor
@@ -84,6 +80,14 @@ public:
      */
     Task<String> waitForFeedback(const String& message, const JsonObject& context) override;
 
+    /**
+     * @brief Run the agent asynchronously with callback
+     * @param task The task to run
+     * @param callback Callback function to call with result
+     */
+    void runAsync(const String& task, std::function<void(const JsonObject&)> callback);
+
+
 /*! @cond PRIVATE */
 protected:
     /**
@@ -92,39 +96,14 @@ protected:
     String agent_prompt_;
 
     /**
-     * @brief Run interval in ms (how often the agent checks for new messages)
-     */
-    int run_interval_ms_ = 100;
-
-    /**
-     * @brief Coroutine promise for feedback
+     * @brief Feedback promise for simple feedback mechanism
      */
     std::promise<String> feedback_promise_;
 
     /**
-     * @brief Mutex for the queue
+     * @brief Mutex for feedback promise
      */
-    std::mutex queue_mutex_;
-
-    /**
-     * @brief Condition variable for the queue
-     */
-    std::condition_variable queue_cv_;
-
-    /**
-     * @brief Queue of inbound tasks
-     */
-    std::queue<String> inbound_tasks_;
-
-    /**
-     * @brief Stop flag
-     */
-    std::atomic<bool> stop_flag_{false};
-
-    /**
-     * @brief Worker thread
-     */
-    std::thread worker_thread_;
+    std::mutex feedback_mutex_;
 
     /**
      * @brief Callback for when a tool is used
@@ -147,16 +126,6 @@ protected:
     virtual void onError(const String& error);
 
     /**
-     * @brief Start the worker loop
-     */
-    void startWorker();
-
-    /**
-     * @brief Stop the worker loop
-     */
-    void stopWorker();
-
-    /**
      * @brief Create the agent prompt with available tools
      * @return The agent prompt
      */
@@ -168,6 +137,7 @@ protected:
      * @return The processed message
      */
     Task<String> processMessage(const String& message);
+
 /*! @endcond */
 };
 

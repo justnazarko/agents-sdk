@@ -1,25 +1,5 @@
 # Main library build recipe
 
-# C++ Requests
-cc_import(
-    name = "cpr",
-    shared_library = select({
-        "@platforms//os:macos": "lib/macos/libcpr.1.dylib",
-        "@platforms//os:linux": "lib/linux/libcpr.so.1",
-        "//conditions:default": None,
-    }),
-)
-
-# Curl
-cc_import(
-    name = "curl",
-    shared_library = select({
-        "@platforms//os:macos": "lib/macos/libcurl.4.dylib",
-        "@platforms//os:linux": "lib/linux/libcurl.so.4.11.0",
-        "//conditions:default": None,
-    }),
-)
-
 # Python for python execution tool
 cc_import(
     name = "python",
@@ -46,8 +26,7 @@ cc_import(
         "//conditions:default": None,
     }),
     deps = [
-        ":cpr",
-        ":curl",
+        "@nlohmann_json//:json",
         ":python"
     ],
     visibility = ["//visibility:public"]

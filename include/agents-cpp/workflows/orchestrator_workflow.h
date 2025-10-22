@@ -78,7 +78,7 @@ public:
      * @param orchestrator_prompt_template The orchestrator prompt template
      */
     OrchestratorWorkflow(
-        std::shared_ptr<AgentContext> context,
+        std::shared_ptr<Context> context,
         const String& orchestrator_prompt_template = ""
     );
 

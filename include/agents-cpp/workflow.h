@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include <agents-cpp/agent_context.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/types.h>
 #include <functional>
 #include <memory>
@@ -33,7 +33,7 @@ public:
      * @brief Constructor
      * @param context The context
      */
-    Workflow(std::shared_ptr<AgentContext> context);
+    Workflow(std::shared_ptr<Context> context);
 
     /**
      * @brief Destructor
@@ -61,7 +61,7 @@ public:
      * @brief Get the workflow's context
      * @return The context
      */
-    std::shared_ptr<AgentContext> getContext() const;
+    std::shared_ptr<Context> getContext() const;
 
     /**
      * @brief Set a callback for intermediate steps
@@ -86,7 +86,7 @@ protected:
     /**
      * @brief The context
      */
-    std::shared_ptr<AgentContext> context_;
+    std::shared_ptr<Context> context_;
 
     /**
      * @brief The step callback

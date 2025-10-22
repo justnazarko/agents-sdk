@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include <agents-cpp/agent_context.h>
+#include <agents-cpp/context.h>
 #include <agents-cpp/coroutine_utils.h>
 #include <agents-cpp/types.h>
 #include <functional>
@@ -88,7 +88,7 @@ public:
      * @brief Constructor
      * @param context The agent context
      */
-    Agent(std::shared_ptr<AgentContext> context);
+    Agent(std::shared_ptr<Context> context);
 
     /**
      * @brief Destructor
@@ -123,7 +123,7 @@ public:
      * @brief Get the agent's context
      * @return The agent context
      */
-    std::shared_ptr<AgentContext> getContext() const;
+    std::shared_ptr<Context> getContext() const;
 
     /**
      * @brief Get the agent's current state
@@ -176,7 +176,7 @@ protected:
     /**
      * @brief The agent context
      */
-    std::shared_ptr<AgentContext> context_;
+    std::shared_ptr<Context> context_;
 
     /**
      * @brief The agent state
