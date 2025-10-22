@@ -215,15 +215,16 @@ You can modify examples/simple_agent.cpp to explore different configurations:
 
 The repository includes several examples demonstrating different workflow patterns:
 
-| Example                       | Description                       |
-| ----------------------------- | --------------------------------- |
-| `simple_agent`                | Basic autonomous agent            |
-| `prompt_chain_example`        | Prompt chaining workflow          |
-| `routing_example`             | Multi-agent routing               |
-| `parallel_example`            | Parallel task execution           |
-| `orchestrator_example`        | Orchestrator–worker pattern       |
-| `evaluator_optimizer_example` | Evaluator–optimizer feedback loop |
-| `autonomous_agent_example`    | Full-featured autonomous agent    |
+| Example                       | Description                           |
+| ----------------------------- | --------------------------------------|
+| `simple_agent`                | Basic autonomous agent                |
+| `prompt_chain_example`        | Prompt chaining workflow              |
+| `routing_example`             | Multi-agent routing                   |
+| `parallel_example`            | Parallel task execution               |
+| `orchestrator_example`        | Orchestrator–worker pattern           |
+| `evaluator_optimizer_example` | Evaluator–optimizer feedback loop     |
+| `multimodal_example`          | Support for voice, audio, image, docs |
+| `autonomous_agent_example`    | Full-featured autonomous agent        |
 
 Run examples available:
 
